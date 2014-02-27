@@ -4,9 +4,9 @@
 # Tested on Fedora 20
 
 # Install dependent packages
-yum groupinstall -y "Development Tools"
-yum install -y python-devel python-pip
-yum install -y zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel
+yum -y groupinstall "Development Tools"
+yum -y install python-devel python-pip
+yum -y install zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel
 
 # Install pyenv
 curl https://raw.github.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
