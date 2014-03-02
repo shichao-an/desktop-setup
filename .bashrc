@@ -18,7 +18,7 @@ browse() {
     else
         directory="$1"
     fi
-    (nautilus "$directory" > /dev/null &)
+    ( nautilus "$directory" &> /dev/null & )
 }
 
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python

@@ -24,3 +24,4 @@ export VISUAL=$EDITOR
 
 # Export PATH at last
 export PATH
+export foo=bar
