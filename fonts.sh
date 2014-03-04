@@ -10,7 +10,7 @@ yum -y install freetype-infinality fontconfig-infinality libXft-infinality
 yum -y install wqy-microhei-fonts 
 
 # Install Microsfot TrueType fonts
-if [ "$1" = "msttcorefonts"]
+if [ "$1" = "msttcorefonts" ]
 then
     yum -y install rpm-build cabextract ttmkfdir
     wget http://corefonts.sourceforge.net/msttcorefonts-2.5-1.spec
