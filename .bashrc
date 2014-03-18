@@ -11,7 +11,17 @@ fi
 # User specific aliases and functions
 alias ll='ls -al --color=auto'
 
-browse() {
+whatprovides()
+{
+    local usage="Usage: whatprovides command_name"
+    [ "$#" -ne 1 ] && { echo "$usage" >&2; return 1; }
+    local filename="$(which "$1" 2>/dev/null)" 
+    [ -z "$filename" ] && { echo "no command found" >&2; return 1; }
+    rpm -q --whatprovides "$filename" 
+}
+
+browse()
+{
     if [ -z "$1" ]
     then
         directory="$PWD"
