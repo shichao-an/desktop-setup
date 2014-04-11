@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-yum install autoconf autogen automake libtool shtool
+yum -y install autoconf autogen automake libtool shtool
