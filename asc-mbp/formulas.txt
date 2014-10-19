@@ -4,6 +4,7 @@ astyle
 autoconf
 automake
 bash
+cloc
 elinks
 enscript
 ffmpeg
