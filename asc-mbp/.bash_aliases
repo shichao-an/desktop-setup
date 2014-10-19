@@ -14,5 +14,8 @@ alias pyhttpd='python -m SimpleHTTPServer'
 alias pyftpd="python -m pyftpdlib"
 alias json="python -mjson.tool"
 
+# Python based alias
+alias getsitepackages="python -c 'import site; print(site.getsitepackages())'"
+
 # Temporary aliases
 alias touhou="LANG=ja_JP.UTF-8 WINEDEBUG=-all wine"
