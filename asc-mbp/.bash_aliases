@@ -16,9 +16,3 @@ alias json="python -mjson.tool"
 
 # Temporary aliases
 alias touhou="LANG=ja_JP.UTF-8 WINEDEBUG=-all wine"
-
-alias asc-acer-wakeup="bash $HOME/Documents/tools/wakeup_asc_acer.sh"
-alias asc-acer-sleep="bash $HOME/Documents/tools/sleep_asc_acer.sh"
-alias asc-mac-wakeup="bash $HOME/Documents/tools/wakeup_asc_mac.sh"
-
-alias bilibili-dl="python $HOME/Documents/projects/bilibili-dl/bilibili_dl.py"

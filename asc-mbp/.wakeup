@@ -1,0 +1,6 @@
+# `wakeup` script for sleepwatcher
+# /usr/local/sbin/sleepwatcher -V -s ~/.sleep -w ~/.wakeup
+# The following commands will be executed upon wakeup
+
+sleep 5
+/usr/local/bin/sleephost asc-acer
