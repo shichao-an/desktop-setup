@@ -2,4 +2,4 @@
 # /usr/local/sbin/sleepwatcher -V -s ~/.sleep -w ~/.wakeup
 # The following commands will be executed upon sleep
 
-/usr/local/bin/wakeonlan b8:88:e3:c:58:39
+/usr/local/bin/sleephost asc-acer
