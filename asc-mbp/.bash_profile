@@ -5,8 +5,8 @@ export HISTSIZE=2000
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
 
-# PATH for pyenv and rbenv
-export PATH="$PATH:$HOME/.pyenv/shims:$HOME/.rbenv/shims"
+# PATH for pyenv, rbenv and $HOME/bin
+export PATH="$PATH:$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/bin"
 # PATH for Go
 export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 # pyenv
