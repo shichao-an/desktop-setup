@@ -1,14 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Download and play free PVs from DMM.R18 (dmm.co.jp)
 # Use mpv or mplayer
 
 cmd_name=$(basename "$0")
 usage="usage: $cmd_name CID"
-[ $# -ne 1 ] && { echo "$usage" >&2; exit 1; }
+[ $# -ne 1 -o $1 = '-h' -o $1 = '--help' ] && { echo "$usage" >&2; exit 1; }
 cid="$1"
 url_prefix=http://cc3001.dmm.co.jp/litevideo/freepv
 url_path=${cid:0:1}/${cid:0:3}/$cid/$cid
-url_part=$(echo -n "$url_prefix/$url_path" | tr 'A-Z' 'a-z')
+url_part="$url_prefix/$url_path"
+url_part=${url_part^^}
 declare -a url_suffixes=('_dmb_w.mp4' '_sm_w.mp4' '_sm_s.mp4')
 for suffix in "${url_suffixes[@]}"
 do

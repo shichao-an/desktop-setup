@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Download and play free PVs prestige-av.com
+# Use mpv or mplayer
+
+cmd_name=$(basename "$0")
+usage="usage: $cmd_name CID"
+[ $# -ne 1 -o $1 = '-h' -o $1 = '--help' ] && { echo "$usage" >&2; exit 1; }
+
+cid=${1^^}
+if ! echo $cid | grep -E '[A-Z]+-[0-9]+' > /dev/null
+then
+    if echo $cid | grep -E '[A-Z]+[0-9]+' > /dev/null
+    then
+        cid=$(echo $cid | sed 's/\([A-Z]\{1,\}\)\([0-9]\{1,\}\)$/\1-\2/')
+    else
+        echo 'Invalid cid format.' >&2
+        exit 1
+    fi
+fi
+
+url="http://www.prestige-av.com/sample_movie/${cid}.wmv"
+
+if ! curl -sf "$url" > /dev/null
+then
+    echo 'URL is not found.' >&2
+    exit 1
+fi
+
+echo $url
+if which mpv > /dev/null
+then
+    player="mpv"
+elif which mplayer > /dev/null
+then
+    player="mplayer -aspect 16:9"
+else
+    echo 'Neither mpv or mplayer is found in PATH.' >&2
+    exit 1
+fi
+$player $url
