@@ -13,7 +13,12 @@ export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 eval "$(pyenv init -)"
 # virtualenvwrapper
 export WORKON_HOME=~/envs
+# pcd
+export PROJECT_DIR="$HOME/Documents/projects"
 
 if [ -f "$HOME/.bashrc" ]; then
     . "$HOME/.bashrc"
+fi
+if [ -f "$HOME/.bash_completion" ]; then
+    . "$HOME/.bash_completion"
 fi

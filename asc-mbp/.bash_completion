@@ -1,0 +1,9 @@
+_pcd()
+{
+    COMPREPLY=();
+    local word="${COMP_WORDS[COMP_CWORD]}";
+    if [ "$COMP_CWORD" -eq 1 ]; then
+        COMPREPLY=($(compgen -W "$(ls "$PROJECT_DIR")" -- "$word"));
+	fi
+}
+complete -F _pcd pcd
