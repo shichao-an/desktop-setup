@@ -5,9 +5,9 @@
 url="http://sougouwiki.com/search"
 browser="/Applications/Google Chrome.app"
 cmd_name=$(basename $0)
-usage="$cmd_name keyword"
+usage="usage: $cmd_name keyword"
 [ $# -ne 1 ] && { echo "$usage" >&2; exit 1; }
-tmp=/tmp/$(date +%s)
+tmp="/tmp/sgw$(date +%s)"
 trap "{ rm $tmp; }" EXIT
 keywords=$(echo "$1" | iconv -t EUC-JP)
 curl -sG "$url" --data-urlencode "keywords=$keywords" | iconv -f EUC-JP \
