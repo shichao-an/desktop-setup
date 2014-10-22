@@ -5,6 +5,8 @@ autoconf
 automake
 bash
 cloc
+ctags
+coreutils
 elinks
 enscript
 ffmpeg
