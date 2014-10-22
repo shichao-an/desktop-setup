@@ -2,7 +2,7 @@
 # Search keywords on sougouwiki.com and open the selected result in
 # browser
 
-
+url="http://sougouwiki.com/search"
 browser="/Applications/Google Chrome.app"
 cmd_name=$(basename $0)
 usage="$cmd_name keyword"
@@ -10,10 +10,11 @@ usage="$cmd_name keyword"
 tmp=/tmp/$(date +%s)
 trap "{ rm $tmp; }" EXIT
 keywords=$(echo "$1" | iconv -t EUC-JP)
-curl -sG "http://sougouwiki.com/search" --data-urlencode "keywords=$keywords" | iconv -f EUC-JP \
+curl -sG "$url" --data-urlencode "keywords=$keywords" | iconv -f EUC-JP \
     | sed -nE 's:<h3 class="keyword"><a href="([^"]*)">([^<]*)</a></h3>:\2\	\1:p' \
     | cat -n | tee $tmp | awk -F '\t' '{ print $1, $2 }'
 length=$(wc -l < $tmp | xargs)
+[ $length -eq 0 ] && { echo 'No result.'; exit; }
 read -p "Choose [1-$length]: " lineno
 sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
     | xargs -I {} open -a "$browser" "{}"
