@@ -9,7 +9,7 @@ cid="$1"
 url_prefix=http://cc3001.dmm.co.jp/litevideo/freepv
 url_path=${cid:0:1}/${cid:0:3}/$cid/$cid
 url_part="$url_prefix/$url_path"
-url_part=${url_part^^}
+url_part=${url_part,,}
 declare -a url_suffixes=('_dmb_w.mp4' '_sm_w.mp4' '_sm_s.mp4')
 for suffix in "${url_suffixes[@]}"
 do
