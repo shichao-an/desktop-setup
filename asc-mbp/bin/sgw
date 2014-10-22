@@ -15,6 +15,27 @@ curl -sG "$url" --data-urlencode "keywords=$keywords" | iconv -f EUC-JP \
     | cat -n | tee $tmp | awk -F '\t' '{ print $1, $2 }'
 length=$(wc -l < $tmp | xargs)
 [ $length -eq 0 ] && { echo 'No result.'; exit; }
-read -p "Choose [1-$length]: " lineno
+while true
+do
+    read -p "Choose [1-$length] (0 for all): " lineno
+    case "$lineno" in
+        0)
+            lineno=""
+            break
+            ;;
+        [0-9]*)
+            if [[ "$lineno" =~ ^[0-9]+$ ]]
+            then
+                [ "$lineno" -gt "$length" -o "$lineno" -lt 1 ] && \
+                    echo 'Invalid number.' >&2 || break
+            else
+                echo 'Invalid number.' >&2
+            fi
+            ;;
+        *)
+            echo 'Invalid number.' >&2
+        ;;
+    esac
+done
 sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
     | xargs -I {} open "{}"
