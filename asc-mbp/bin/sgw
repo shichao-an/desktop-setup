@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Search keywords on sougouwiki.com and open the selected result in
-# browser
+# Search keywords on sougouwiki.com and open the url of selected
+# page in the default browser
 
 url="http://sougouwiki.com/search"
-browser="/Applications/Google Chrome.app"
+#browser="/Applications/Google Chrome.app"
 cmd_name=$(basename $0)
 usage="usage: $cmd_name keyword"
 [ $# -ne 1 ] && { echo "$usage" >&2; exit 1; }
@@ -17,4 +17,4 @@ length=$(wc -l < $tmp | xargs)
 [ $length -eq 0 ] && { echo 'No result.'; exit; }
 read -p "Choose [1-$length]: " lineno
 sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
-    | xargs -I {} open -a "$browser" "{}"
+    | xargs -I {} open "{}"
