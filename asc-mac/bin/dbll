@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Dropbox Link Listener (DBLL)
+# Listen for links in ~/Dropbox/dbll directory and open specified
+# application to download
+
+set -e
+cmd_name=$(basename "$0")
+usage="usage: $cmd_name app_name"
+dbll_dir="$HOME/Dropbox/dbll"
+aria2_cmd=$(which aria2c)
+[ $# -ne 1 ] && { echo "$usage" >&2; exit 1; }
+[ ! -d "$dbll_dir" ] && { echo "$dbll_dir directory does not exist." >&2; exit 1; }
+
+computer_name=$(hostname -s)
+app_name="$1"
+while true
+do
+    url_file="$dbll_dir/$computer_name"
+    if [ "$app_name" = 'Thunder' ]
+    then
+        [ -f "$url_file" ] && { url=$(< "$url_file"); echo "URL detected. Opening $app_name..."; open -a \
+            "$app_name" "$url"; rm "$url_file"; } || sleep 2;
+    elif [ "$app_name" = 'aria2' ]
+    then
+        [ -z "$aria2_cmd" ] && { echo 'aria2 is not installed.' >&2; exit 1; }
+        [ -f "$url_file" ] && { url=$(< "$url_file"); echo "URL detected. Starting $app_name..."; \
+            ( aria2c "$url" -d "$HOME/Downloads" -l "$HOME/dbll.log" &); \
+            rm "$url_file"; } || sleep 2;
+    fi
+done
