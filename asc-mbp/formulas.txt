@@ -7,6 +7,7 @@ bash
 cloc
 ctags
 coreutils
+dnsmasq
 elinks
 enscript
 ffmpeg
