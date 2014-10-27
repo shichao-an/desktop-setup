@@ -9,3 +9,13 @@ _pcd()
     fi
 }
 complete -F _pcd pcd
+_dbb()
+{
+    COMPREPLY=();
+    local word="${COMP_WORDS[COMP_CWORD]}";
+    if [ "$COMP_CWORD" -eq 1 ]
+    then
+        COMPREPLY=($(compgen -W "$(awk -F '\t' '{ print $1 }' $HOME/.dbb )" -- "$word"));
+    fi
+}
+complete -F _dbb dbb
