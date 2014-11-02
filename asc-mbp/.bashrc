@@ -33,9 +33,6 @@ dbb()
 }
 
 
-
-complete -F _pcd pcd
-
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
