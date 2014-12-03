@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Download and play free PVs from DMM.R18 (dmm.co.jp)
 # Use mpv or mplayer
+# Bash 4.x required
 
 cmd_name=$(basename "$0")
 usage="usage: $cmd_name CID"
