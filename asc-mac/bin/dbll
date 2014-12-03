@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Dropbox Link Listener (DBLL)
 # Listen for links in ~/Dropbox/dbll directory and open specified
 # application to download
+#
+# Usage: ./dbll APP_NAME
 
 set -e
 cmd_name=$(basename "$0")
