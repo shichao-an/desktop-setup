@@ -1,0 +1,1 @@
+SUBSYSTEM=="video4linux", KERNEL=="video0", ACTION=="add", SYMLINK+="c615", GROUP="video", MODE="0660"
