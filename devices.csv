@@ -7,6 +7,8 @@ ASC-TPF,asc-tpf,ThinkPad T431,Fedora 20,10.0.1.16
 ASC-IPA,,iPad Air 2,iOS 8,
 ASC-IPM,,iPad mini 3,iOS 8,
 ASC-IP3,,iPad 3,iOS 8,
+ASC-IC,,iPod classic,,
+ASC-IS,,iPod shuffle,,
 TOKI-AP,,AirPort Express,,10.0.1.3
 TOKI-MASTER,,AirPort Extreme,,10.0.1.1
 TOKI-DS,toki-ds,Synology NAS,,10.0.1.6
