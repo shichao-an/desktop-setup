@@ -7,7 +7,6 @@ dotfiles=(
     ~/.bash_completion
     ~/.bash_profile
     ~/.bashrc
-    ~/.bash_login
     )
 
 cp "${dotfiles[@]}" $(dirname "$BASH_SOURCE")
