@@ -19,19 +19,19 @@ myssh()
     declare -a arg=($(echo "$1" | sed 's/@/ /g'))
     if [ ${#arg[@]} -eq 1 ]
     then
-        hostname=${arg[0]}
-        username=$MYSSH_USERNAME
+        local hostname=${arg[0]}
+        local username=$MYSSH_USERNAME
     elif [ ${#arg[@]} -eq 2 ]
     then
-        hostname=${arg[1]}
-        username=${arg[0]}
+        local hostname=${arg[1]}
+        local username=${arg[0]}
     fi
-    host="$username@$hostname"
+    local host="$username@$hostname"
     if declare -p MYSSH_KEY &> /dev/null
     then
-        echo ssh -i "$MYSSH_KEY" $host
+        ssh -i "$MYSSH_KEY" $host
     else
-        echo ssh $host
+        ssh $host
     fi
 }
 
