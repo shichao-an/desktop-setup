@@ -58,6 +58,7 @@ protobuf
 pth
 pwsafe
 pyenv
+pyenv-pip-rehash
 pyenv-virtualenvwrapper
 python
 readline
