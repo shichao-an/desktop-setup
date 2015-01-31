@@ -4,7 +4,7 @@ export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
 
 # PATH for $HOME/bin
-export PATH="$PATH:$HOME/bin"
+export PATH="/usr/local/sbin:$PATH:$HOME/bin"
 # PATH for Go
 export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 # pyenv
