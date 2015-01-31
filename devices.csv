@@ -1,5 +1,6 @@
 Device Name,Hostname,Description,OS,Static IP
 ASC-MBP,asc-mbp,MacBook Pro,OS X 10.10,10.0.1.10
+ASC-MBA,asc-mba,MacBook Air,OS X 10.10,
 ASC-MAC,asc-mac,Mac mini,OS X 10.10,10.0.1.5
 ASC-ACER,asc-acer,Acer Aspire One,Fedora 20,10.0.1.4
 ASC-TPF,asc-tpf,ThinkPad T431,Fedora 20,10.0.1.16

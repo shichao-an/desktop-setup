@@ -1,0 +1,21 @@
+# vim: syntax=sh tabstop=4 shiftwidth=4 expandtab softtabstop=4 smarttab
+_pcd()
+{
+    COMPREPLY=();
+    local word="${COMP_WORDS[COMP_CWORD]}";
+    if [ "$COMP_CWORD" -eq 1 ]
+    then
+        COMPREPLY=($(compgen -W "$(ls "$PROJECT_DIR")" -- "$word"));
+    fi
+}
+complete -F _pcd pcd
+_dbb()
+{
+    COMPREPLY=();
+    local word="${COMP_WORDS[COMP_CWORD]}";
+    if [ "$COMP_CWORD" -eq 1 ]
+    then
+        COMPREPLY=($(compgen -W "$(awk -F '\t' '{ print $1 }' $HOME/.dbb )" -- "$word"));
+    fi
+}
+complete -F _dbb dbb
