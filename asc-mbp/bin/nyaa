@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+
+usage='nyaa KEYWORD'
+
+show_help() {
+   echo "$usage" >&2 
+}
+
+[ $# -ne 1 ] && { show_help; exit 1; }
+
+site=${NYAA_SITE:-sukebei.nyaa.se}
+declare -A params
+params=(
+	[page]=search
+    [cat]=0_0
+    [filter]=0
+    [term]=$1
+	)
+
+for key in "${!params[@]}"
+do
+    curl_data="$curl_data --data-urlencode $key=${params[$key]}"
+done
+tmp="/tmp/nyaa$(date +%s)"
+trap "{ rm $tmp; }" EXIT
+url="http://$site/"
+curl -sG "$url" $curl_data | sed 's/<td class="tlistname">/\'$'\n/g' \
+    | sed -nE 's:<a href="([^"]*)">([^<]*)</a></td><td class="tlistdownload"><a href="([^"]*)" .*:\2	\3:p' \
+    | sed -E 's/&#38;/\&/g' \
+    | cat -n | tee $tmp | awk -F '\t' '{ print $1, $2 }'
+length=$(wc -l < $tmp | xargs)
+[ $length -eq 0 ] && { echo 'No result.'; exit; }
+while true
+do
+    read -p "Choose [1-$length] (0 for all): " lineno
+    case "$lineno" in
+        0)
+            lineno=""
+            break
+            ;;
+        [0-9]*)
+            if [[ "$lineno" =~ ^[0-9]+$ ]]
+            then
+                [ "$lineno" -gt "$length" -o "$lineno" -lt 1 ] && \
+                    echo 'Invalid number.' >&2 || break
+            else
+                echo 'Invalid number.' >&2
+            fi
+            ;;
+        *)
+            echo 'Invalid number.' >&2
+        ;;
+    esac
+done
+sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
+    | xargs -I {} open "{}"
