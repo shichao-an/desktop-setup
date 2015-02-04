@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+#
+# Search and download torrent from nyaa.se site
+#
+# To use a different site, pass the NYAA_SITE with hostname
+# to the nyaa command, e.g.:
+# NYAA_SITE=nyaa.se nyaa keyword
 
 
 usage='nyaa KEYWORD'
