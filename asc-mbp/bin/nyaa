@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# vim: textwidth=180
 #
 # Search and download torrent from nyaa.se site
 #
@@ -6,12 +7,30 @@
 # to the nyaa command, e.g.:
 # NYAA_SITE=nyaa.se nyaa keyword
 
-usage='nyaa KEYWORD'
+usage='usage: nyaa [-p] KEYWORD'
 
 show_help() {
    echo "$usage" >&2 
 }
 
+while getopts ":ph" opt; do
+    case $opt in
+    p)
+        link_only="1"
+        ;;
+    h)
+        show_help
+        exit
+        ;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
+        show_help
+        exit 1
+        ;;
+    esac
+done
+
+shift "$((OPTIND-1))"
 [ $# -ne 1 ] && { show_help; exit 1; }
 
 site=${NYAA_SITE:-sukebei.nyaa.se}
@@ -58,6 +77,6 @@ do
         ;;
     esac
 done
-cat $tmp
+[ -n "$link_only" ] && { sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3; }'; exit; }
 sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
-    | xargs -I {} curl -v -OJ -L "{}" | grep 'Saved to filename'
+    | xargs -I {} curl -OJ -L "{}" |& grep 'Saved to filename'
