@@ -6,7 +6,6 @@
 # to the nyaa command, e.g.:
 # NYAA_SITE=nyaa.se nyaa keyword
 
-
 usage='nyaa KEYWORD'
 
 show_help() {
@@ -32,7 +31,7 @@ tmp="/tmp/nyaa$(date +%s)"
 trap "{ rm $tmp; }" EXIT
 url="http://$site/"
 curl -sG "$url" $curl_data | sed 's/<td class="tlistname">/\'$'\n/g' \
-    | sed -nE 's:<a href="([^"]*)">([^<]*)</a></td><td class="tlistdownload"><a href="([^"]*)" .*:\2	\3:p' \
+    | sed -nE 's:<a href="([^"]*)">([^<]*)</a></td><td class="tlistdownload"><a href="([^"]*)" title="Download".*<td class="tlistsize">([^<]*)</td>.*:[\4] \2	\3:p' \
     | sed -E 's/&#38;/\&/g' \
     | cat -n | tee $tmp | awk -F '\t' '{ print $1, $2 }'
 length=$(wc -l < $tmp | xargs)
@@ -59,5 +58,6 @@ do
         ;;
     esac
 done
+cat $tmp
 sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
-    | xargs -I {} open "{}"
+    | xargs -I {} curl -v -OJ -L "{}" | grep 'Saved to filename'
