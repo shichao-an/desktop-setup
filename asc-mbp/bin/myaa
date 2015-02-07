@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # vim: textwidth=110
 
-
+export PYTHONIOENCODING="UTF-8"
 set -e
 usage='usage: myaa keyword server'
 server_dir="115dl"
