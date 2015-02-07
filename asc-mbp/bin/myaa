@@ -3,7 +3,7 @@
 
 
 set -e
-usage='myaa keyword server'
+usage='usage: myaa keyword server'
 server_dir="115dl"
 server_log="myaa.log"
 retries=3
