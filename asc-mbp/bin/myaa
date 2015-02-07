@@ -29,7 +29,7 @@ debug() {
 # Download torrent using nyaa
 download_torrent() {
     debug "Searching torrent with nyaa..."
-    nyaa -p "$keyword"
+    nyaa -p "$keyword" || exit 1
     torrent=$(nyaa "$keyword" | sed -nE "s/.*Saved to filename '(.+)'/\1/p")
     [ -z "$torrent" ] && { echo 'No result.' >&2; exit 1; }
     trap "{ rm '$torrent'; }" EXIT SIGINT SIGTERM

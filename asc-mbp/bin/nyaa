@@ -58,7 +58,7 @@ curl -sG "$url" $curl_data | sed 's/<td class="tlistname">/\'$'\n/g' \
 trap "rm $tmp" EXIT
 
 length=$(wc -l < $tmp | xargs)
-[ $length -eq 0 ] && { echo 'No result.'; exit; }
+[ $length -eq 0 ] && { echo 'No result.'; exit 1; }
 [ -n "$print_only" ] && exit
 while true
 do

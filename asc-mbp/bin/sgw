@@ -14,7 +14,7 @@ curl -sG "$url" --data-urlencode "keywords=$keywords" | iconv -f EUC-JP \
     | sed -nE 's:<h3 class="keyword"><a href="([^"]*)">([^<]*)</a></h3>:\2\	\1:p' \
     | cat -n | tee $tmp | awk -F '\t' '{ print $1, $2 }'
 length=$(wc -l < $tmp | xargs)
-[ $length -eq 0 ] && { echo 'No result.'; exit; }
+[ $length -eq 0 ] && { echo 'No result.'; exit 1; }
 while true
 do
     read -p "Choose [1-$length] (0 for all): " lineno
