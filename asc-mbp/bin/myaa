@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 # vim: textwidth=110
+# myaa
+# Dependencies:
+# - nyaa
+# - 115up (115wangpan)
+# - SSH
+# - GNU Screen
 
 export PYTHONIOENCODING="UTF-8"
 set -e
