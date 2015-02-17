@@ -58,7 +58,10 @@ curl -sG "$url" $curl_data | sed 's/<td class="tlistname">/\'$'\n/g' \
 trap "rm $tmp" EXIT
 
 length=$(wc -l < $tmp | xargs)
-[ $length -eq 0 ] && { echo 'No result.'; exit 1; }
+[ $length -eq 0 ] && {
+    echo 'No result.'
+    exit 1
+}
 [ -n "$print_only" ] && exit
 while true
 do
@@ -82,6 +85,9 @@ do
         ;;
     esac
 done
-[ -n "$show_link" ] && { sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3; }'; exit; }
+[ -n "$show_link" ] && {
+    sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3; }'
+    exit
+}
 sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
     | xargs -I {} curl -OJ -L "{}" |& grep 'Saved to filename'

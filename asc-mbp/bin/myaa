@@ -37,7 +37,10 @@ download_torrent() {
     debug "Searching torrent with nyaa..."
     nyaa -p "$keyword" || exit 1
     torrent=$(nyaa "$keyword" | sed -nE "s/.*Saved to filename '(.+)'/\1/p")
-    [ -z "$torrent" ] && { echo 'No result.' >&2; exit 1; }
+    [ -z "$torrent" ] && {
+        echo 'No result.' >&2
+        exit 1
+    }
     trap "{ rm '$torrent'; }" EXIT SIGINT SIGTERM
 }
 
@@ -46,14 +49,23 @@ download_torrent() {
 upload_torrent() {
     debug "Uploading torrent with 115up..."
     task_status=$(115up -t "$torrent" | grep -oE 'TRANSFERRED|BEING TRANSFERRED')
-    [ "$?" -ne 0 ] && { echo 'File not transferred. Abort.' >&2; exit 1; }
+    [ "$?" -ne 0 ] && {
+        echo 'File not transferred. Abort.' >&2
+        exit 1
+    }
     while true
     do
-        [ "$task_status" = 'BEING TRANSFERRED' ] && { echo 'Being transferred. Sleep for 15 sec ..'; sleep 15; } || break
+        [ "$task_status" = 'BEING TRANSFERRED' ] && {
+            echo 'Being transferred. Sleep for 15 sec ..'
+            sleep 15
+        } || break
         debug "Checking task status..."
         task_status=$(115down -t | head -1 | sed -nE "s/.*\[(.+)\]$/\1/p")
         (( count++ ))
-        [ $count -eq $retries ] && { echo 'Maximum retries is reached. Abort.' >&2; exit 1; }
+        [ $count -eq $retries ] && {
+            echo 'Maximum retries is reached. Abort.' >&2
+            exit 1
+        }
     done
 }
 
