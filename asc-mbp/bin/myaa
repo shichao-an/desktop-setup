@@ -61,7 +61,7 @@ upload_torrent() {
         } || break
         debug "Checking task status..."
         task_status=$(115down -t | head -1 | sed -nE 's/^[0-9]+ \[(.+)\] .*/\1/p')
-        (( count++ ))
+        count=$((count+1)) # count=0; (( count++ )); will return 1 to cause shell exits
         [ $count -eq $retries ] && {
             echo 'Maximum retries is reached. Abort.' >&2
             exit 1
