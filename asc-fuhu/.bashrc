@@ -34,5 +34,3 @@ myssh()
         ssh $host
     fi
 }
-
-
