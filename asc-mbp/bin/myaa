@@ -73,7 +73,7 @@ upload_torrent() {
 # Dispatch download task to server
 dispatch_task() {
     debug "Dispatching download task to $server..."
-    session="${session_prefix}$(date +%Y-%m-%d_%H:%M:%S)"
+    session="${session_prefix}_${keyword}_$(date +%Y-%m-%d_%H:%M:%S)"
     ssh "$server" "screen -dmS $session"
     ssh -t "$server" "screen -S $session -p 0 -X stuff 'cd 115dl
     echo $session >> $server_log
