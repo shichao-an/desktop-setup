@@ -7,27 +7,27 @@
 # Usage: ./dbll APP_NAME
 
 set -e
-cmd_name=$(basename "$0")
-usage="usage: $cmd_name app_name"
-dbll_dir="$HOME/Dropbox/dbll"
-aria2_cmd=$(which aria2c)
-[ $# -ne 1 ] && { echo "$usage" >&2; exit 1; }
-[ ! -d "$dbll_dir" ] && { echo "$dbll_dir directory does not exist." >&2; exit 1; }
+CMD_NAME=$(basename "$0")
+USAGE="usage: $CMD_NAME APP_NAME"
+DBLL_DIR="$HOME/Dropbox/dbll"
+ARIA2_CMD=$(which aria2c)
+[ $# -ne 1 ] && { echo "$USAGE" >&2; exit 1; }
+[ ! -d "$DBLL_DIR" ] && { echo "$DBLL_DIR directory does not exist." >&2; exit 1; }
 
-computer_name=$(hostname -s)
-app_name="$1"
+COMPUTER_NAME=$(hostname -s)
+APP_NAME="$1"
 while true
 do
-    url_file="$dbll_dir/$computer_name"
-    if [ "$app_name" = 'Thunder' ]
+    URL_FILE="$DBLL_DIR/$COMPUTER_NAME"
+    if [ "$APP_NAME" = 'Thunder' ]
     then
-        [ -f "$url_file" ] && { url=$(< "$url_file"); echo "URL detected. Opening $app_name..."; open -a \
-            "$app_name" "$url"; rm "$url_file"; } || sleep 2;
-    elif [ "$app_name" = 'aria2' ]
+        [ -f "$URL_FILE" ] && { url=$(< "$URL_FILE"); echo "URL detected. Opening $APP_NAME..."; open -a \
+            "$APP_NAME" "$url"; rm "$URL_FILE"; } || sleep 2;
+    elif [ "$APP_NAME" = 'aria2' ]
     then
-        [ -z "$aria2_cmd" ] && { echo 'aria2 is not installed.' >&2; exit 1; }
-        [ -f "$url_file" ] && { url=$(< "$url_file"); echo "URL detected. Starting $app_name..."; \
+        [ -z "$ARIA2_CMD" ] && { echo 'aria2 is not installed.' >&2; exit 1; }
+        [ -f "$URL_FILE" ] && { url=$(< "$URL_FILE"); echo "URL detected. Starting $APP_NAME..."; \
             ( aria2c "$url" -d "$HOME/Downloads" -l "$HOME/dbll.log" &); \
-            rm "$url_file"; } || sleep 2;
+            rm "$URL_FILE"; } || sleep 2;
     fi
 done
