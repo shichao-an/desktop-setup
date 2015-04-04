@@ -2,8 +2,8 @@ export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 export HISTFILESIZE=2000
 export HISTSIZE=2000
-export EDITOR=/usr/bin/vim
-export VISUAL=/usr/bin/vim
+export EDITOR=/usr/local/bin/vim
+export VISUAL=/usr/local/bin/vim
 
 # PATH for $HOME/bin
 export PATH="$PATH:$HOME/bin"
@@ -13,10 +13,13 @@ export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 eval "$(pyenv init -)"
 # rbenv
 eval "$(rbenv init -)"
+# go
+export GOPATH="$HOME/go"
 # virtualenvwrapper
 export WORKON_HOME=~/envs
 # pcd
 export PROJECT_DIR="$HOME/Documents/projects"
+export PATH="$PATH:$GOPATH:$PROJECT_DIR/115wangpan/bin"
 
 if [ -f "$HOME/.bash_aliases" ]; then
     . "$HOME/.bash_aliases"

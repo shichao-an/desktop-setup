@@ -19,3 +19,4 @@ alias getsitepackages="python -c 'import site; print(site.getsitepackages())'"
 
 # Temporary aliases
 alias touhou="LANG=ja_JP.UTF-8 WINEDEBUG=-all wine"
+alias fuhussh="ssh -i $HOME/.ssh/fuhu/id_rsa"
