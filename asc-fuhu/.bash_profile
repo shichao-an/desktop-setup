@@ -14,11 +14,15 @@ alias vw='pyenv virtualenvwrapper'
 alias readlink='/usr/local/bin/greadlink'
 alias realpath='/usr/local/bin/grealpath'
 
+# golang
+export GOPATH="$HOME/go"
 
-export EDITOR=/usr/bin/vim
-export VISUAL=/usr/bin/vim
+export EDITOR=/usr/local/bin/vim
+export VISUAL=/usr/local/bin/vim
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home/jre
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
+UHUF_BIN="$HOME/Documents/working/projects/uhuf/bin"
+
+export PATH="$PATH:$GOPATH/bin:$UHUF_BIN:/usr/local/opt/go/libexec/bin"
 
 # Environment variables for .bashrc and .bash_aliases
 
