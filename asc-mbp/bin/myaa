@@ -9,23 +9,23 @@
 
 export PYTHONIOENCODING="UTF-8"
 set -e
-usage='usage: myaa keyword server'
-server_dir="115dl"
-server_log="myaa.log"
-retries=3
-count=0
+USAGE='usage: myaa keyword server'
+SERVER_DIR="115dl"
+SERVER_LOG="myaa.log"
+RETRIES=3
+COUNT=0
 
 show_help() {
-   echo "$usage" >&2 
+   echo "$USAGE" >&2 
 }
 
 [ $# -ne 2 ] && { show_help; exit 1; }
 
-keyword="$1"
-server="$2"
-torrent=
-task_status=
-session_prefix="myaa"
+KEYWORD="$1"
+SERVER="$2"
+TORRENT=
+TASK_STATUS=
+SESSION_PREFIX="myaa"
 
 debug() {
     echo "INFO: $1"
@@ -35,49 +35,49 @@ debug() {
 # Download torrent using nyaa
 download_torrent() {
     debug "Searching torrent with nyaa..."
-    nyaa -p "$keyword" || exit 1
-    torrent=$(nyaa "$keyword" | sed -nE "s/.*Saved to filename '(.+)'/\1/p")
-    [ -z "$torrent" ] && {
+    nyaa -p "$KEYWORD" || exit 1
+    TORRENT=$(nyaa "$KEYWORD" | sed -nE "s/.*Saved to filename '(.+)'/\1/p")
+    [ -z "$TORRENT" ] && {
         echo 'No result.' >&2
         exit 1
     }
-    trap "{ rm '$torrent'; }" EXIT SIGINT SIGTERM
+    trap "{ rm '$TORRENT'; }" EXIT SIGINT SIGTERM
 }
 
 
 # Upload torrent using 115up
 upload_torrent() {
     debug "Uploading torrent with 115up..."
-    task_status=$(115up -t "$torrent" | grep -oE 'TRANSFERRED|BEING TRANSFERRED')
+    TASK_STATUS=$(115up -t "$TORRENT" | grep -oE 'TRANSFERRED|BEING TRANSFERRED')
     [ "$?" -ne 0 ] && {
         echo 'File not transferred. Abort.' >&2
         exit 1
     }
     while true
     do
-        [ "$task_status" = 'BEING TRANSFERRED' ] && {
+        [ "$TASK_STATUS" = 'BEING TRANSFERRED' ] && {
             echo 'Being transferred. Sleep for 15 sec ..'
             sleep 15
         } || break
         debug "Checking task status..."
-        task_status=$(115down -t | head -1 | sed -nE 's/^[0-9]+ \[(.+)\] .*/\1/p')
-        count=$((count+1)) # count=0; (( count++ )); will return 1 to cause shell exits
-        [ $count -eq $retries ] && {
-            echo 'Maximum retries is reached. Abort.' >&2
+        TASK_STATUS=$(115down -t | head -1 | sed -nE 's/^[0-9]+ \[(.+)\] .*/\1/p')
+        COUNT=$((COUNT+1)) # COUNT=0; (( COUNT++ )); will return 1 to cause shell exits
+        [ $COUNT -eq $RETRIES ] && {
+            echo 'Maximum RETRIES is reached. Abort.' >&2
             exit 1
         }
     done
 }
 
 
-# Dispatch download task to server
+# Dispatch download task to SERVER
 dispatch_task() {
-    debug "Dispatching download task to $server..."
-    session="${session_prefix}_${keyword}_$(date +%Y-%m-%d_%H:%M:%S)"
-    ssh "$server" "screen -dmS $session"
-    ssh -t "$server" "screen -S $session -p 0 -X stuff 'cd 115dl
-    echo $session >> $server_log
-    115down 1 \* |& tee -a $server_log
+    debug "Dispatching download task to $SERVER..."
+    session="${SESSION_PREFIX}_${KEYWORD}_$(date +%Y-%m-%d_%H:%M:%S)"
+    ssh "$SERVER" "screen -dmS $session"
+    ssh -t "$SERVER" "screen -S $session -p 0 -X stuff 'cd 115dl
+    echo $session >> $SERVER_LOG
+    115down 1 \* |& tee -a $SERVER_LOG
     '
     "
 }

@@ -6,19 +6,19 @@
 # To use a different site, pass the NYAA_SITE with hostname
 # to the nyaa command, e.g.:
 # NYAA_SITE=nyaa.se nyaa keyword
-usage='usage: nyaa [-lp] KEYWORD'
+USAGE='usage: nyaa [-lp] KEYWORD'
 
 show_help() {
-   echo "$usage" >&2 
+   echo "$USAGE" >&2 
 }
 
 while getopts ":lph" opt; do
     case $opt in
     l)
-        show_link="1"
+        SHOW_LINK="1"
         ;;
     p)
-        print_only="1"
+        PRINT_ONLY="1"
         ;;
     h)
         show_help
@@ -35,37 +35,36 @@ done
 shift "$((OPTIND-1))"
 [ $# -ne 1 ] && { show_help; exit 1; }
 
-site=${NYAA_SITE:-sukebei.nyaa.se}
-declare -A params
-params=(
+SITE=${NYAA_SITE:-sukebei.nyaa.se}
+declare -A PARAMS
+PARAMS=(
 	[page]=search
     [cat]=0_0
     [filter]=0
     [term]=$1
 	)
 
-for key in "${!params[@]}"
-do
-    curl_data="$curl_data --data-urlencode $key=${params[$key]}"
+for key in "${!PARAMS[@]}"; do
+    CURL_DATA="$CURL_DATA --data-urlencode $key=${PARAMS[$key]}"
 done
-tmp="/tmp/nyaa$(date +%s)"
-url="http://$site/"
-curl -sG "$url" $curl_data | sed 's/<td class="tlistname">/\'$'\n/g' \
+TMP="/tmp/nyaa$(date +%s)"
+URL="http://$SITE/"
+curl -sG "$URL" $CURL_DATA | sed 's/<td class="tlistname">/\'$'\n/g' \
     | sed -nE 's:<a href="([^"]*)">([^<]*)</a></td><td class="tlistdownload"><a href="([^"]*)" title="Download".*<td class="tlistsize">([^<]*)</td>.*:[\4] \2	\3:p' \
     | sed -E 's/&#38;/\&/g' \
-    | cat -n | tee $tmp | awk -F '\t' '{ print $1, $2 }'
+    | cat -n | tee $TMP | awk -F '\t' '{ print $1, $2 }'
 
-trap "rm $tmp" EXIT
+trap "rm $TMP" EXIT
 
-length=$(wc -l < $tmp | xargs)
-[ $length -eq 0 ] && {
+LENGTH=$(wc -l < $TMP | xargs)
+[ $LENGTH -eq 0 ] && {
     echo 'No result.'
     exit 1
 }
-[ -n "$print_only" ] && exit
+[ -n "$PRINT_ONLY" ] && exit
 while true
 do
-    read -p "Choose [1-$length] (0 for all): " lineno
+    read -p "Choose [1-$LENGTH] (0 for all): " lineno
     case "$lineno" in
         0)
             lineno=""
@@ -74,7 +73,7 @@ do
         [0-9]*)
             if [[ "$lineno" =~ ^[0-9]+$ ]]
             then
-                [ "$lineno" -gt "$length" -o "$lineno" -lt 1 ] && \
+                [ "$lineno" -gt "$LENGTH" -o "$lineno" -lt 1 ] && \
                     echo 'Invalid number.' >&2 || break
             else
                 echo 'Invalid number.' >&2
@@ -85,9 +84,9 @@ do
         ;;
     esac
 done
-[ -n "$show_link" ] && {
-    sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3; }'
+[ -n "$SHOW_LINK" ] && {
+    sed -n "${lineno}p" $TMP | awk -F '\t' '{ print $3; }'
     exit
 }
-sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
+sed -n "${lineno}p" $TMP | awk -F '\t' '{ print $3 }' \
     | xargs -I {} curl -OJ -L "{}" |& grep 'Saved to filename'

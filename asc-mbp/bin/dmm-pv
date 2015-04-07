@@ -2,34 +2,36 @@
 # Download and play free PVs from DMM.R18 (dmm.co.jp)
 # Use mpv or mplayer
 
-cmd_name=$(basename "$0")
-usage="usage: $cmd_name CID"
-[ $# -ne 1 -o $1 = '-h' -o $1 = '--help' ] && { echo "$usage" >&2; exit 1; }
-cid="$1"
-url_prefix=http://cc3001.dmm.co.jp/litevideo/freepv
-url_path=${cid:0:1}/${cid:0:3}/$cid/$cid
-url_part="$url_prefix/$url_path"
-url_part=${url_part,,}
-declare -a url_suffixes=('_dmb_w.mp4' '_sm_w.mp4' '_sm_s.mp4')
-for suffix in "${url_suffixes[@]}"
-do
-    if curl -sf "${url_part}${suffix}" > /dev/null
-    then
-        url="${url_part}${suffix}"
+CMD_NAME=$(basename "$0")
+USAGE="usage: $CMD_NAME CID"
+[ $# -ne 1 -o $1 = '-h' -o $1 = '--help' ] && {
+    echo "$USAGE" >&2
+    exit 1
+}
+CID="$1"
+URL_PREFIX=http://cc3001.dmm.co.jp/litevideo/freepv
+URL_PATH=${CID:0:1}/${CID:0:3}/$CID/$CID
+URL_PART="$URL_PREFIX/$URL_PATH"
+URL_PART=${URL_PART,,}
+declare -a URL_SUFFIXES=('_dmb_w.mp4' '_sm_w.mp4' '_sm_s.mp4')
+for suffix in "${URL_SUFFIXES[@]}"; do
+    if curl -sf "${URL_PART}${suffix}" > /dev/null; then
+        URL="${URL_PART}${suffix}"
         break
     fi
 done
-[ -z $url ] && { echo 'URL is not found.' >&2; exit 1; }
+[ -z $URL ] && {
+    echo 'URL is not found.' >&2
+    exit 1
+}
 
-echo $url
-if which mpv > /dev/null
-then
-    player="mpv"
-elif which mplayer > /dev/null
-then
-    player="mplayer"
+echo $URL
+if which mpv > /dev/null; then
+    PLAYER="mpv"
+elif which mplayer > /dev/null; then
+    PLAYER="mplayer"
 else
     echo 'Neither mpv or mplayer is found in PATH.' >&2
     exit 1
 fi
-$player $url
+$PLAYER $URL
