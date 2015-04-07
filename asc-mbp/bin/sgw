@@ -2,22 +2,25 @@
 # Search keywords on sougouwiki.com and open the url of selected
 # page in the default browser
 
-url="http://sougouwiki.com/search"
+URL="http://sougouwiki.com/search"
 #browser="/Applications/Google Chrome.app"
-cmd_name=$(basename $0)
-usage="usage: $cmd_name keyword"
-[ $# -ne 1 ] && { echo "$usage" >&2; exit 1; }
-tmp="/tmp/sgw$(date +%s)"
-trap "{ rm $tmp; }" EXIT
-keywords=$(echo "$1" | iconv -t EUC-JP)
-curl -sG "$url" --data-urlencode "keywords=$keywords" | iconv -f EUC-JP \
+CMD_NAME=$(basename $0)
+USAGE="usage: $CMD_NAME keyword"
+[ $# -ne 1 ] && {
+    echo "$USAGE" >&2
+    exit 1
+}
+TMP="/tmp/sgw$(date +%s)"
+trap "{ rm $TMP; }" EXIT
+KEYWORDS=$(echo "$1" | iconv -t EUC-JP)
+curl -sG "$URL" --data-urlencode "keywords=$KEYWORDS" | iconv -f EUC-JP \
     | sed -nE 's:<h3 class="keyword"><a href="([^"]*)">([^<]*)</a></h3>:\2\	\1:p' \
-    | cat -n | tee $tmp | awk -F '\t' '{ print $1, $2 }'
-length=$(wc -l < $tmp | xargs)
-[ $length -eq 0 ] && { echo 'No result.'; exit 1; }
+    | cat -n | tee $TMP | awk -F '\t' '{ print $1, $2 }'
+LENGTH=$(wc -l < $TMP | xargs)
+[ $LENGTH -eq 0 ] && { echo 'No result.'; exit 1; }
 while true
 do
-    read -p "Choose [1-$length] (0 for all): " lineno
+    read -p "Choose [1-$LENGTH] (0 for all): " lineno
     case "$lineno" in
         0)
             lineno=""
@@ -26,7 +29,7 @@ do
         [0-9]*)
             if [[ "$lineno" =~ ^[0-9]+$ ]]
             then
-                [ "$lineno" -gt "$length" -o "$lineno" -lt 1 ] && \
+                [ "$lineno" -gt "$LENGTH" -o "$lineno" -lt 1 ] && \
                     echo 'Invalid number.' >&2 || break
             else
                 echo 'Invalid number.' >&2
@@ -37,5 +40,5 @@ do
         ;;
     esac
 done
-sed -n "${lineno}p" $tmp | awk -F '\t' '{ print $3 }' \
+sed -n "${lineno}p" $TMP | awk -F '\t' '{ print $3 }' \
     | xargs -I {} open "{}"
