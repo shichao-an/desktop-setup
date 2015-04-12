@@ -25,7 +25,6 @@ KEYWORD="$1"
 SERVER="$2"
 TORRENT=
 TASK_STATUS=
-SESSION_PREFIX="myaa"
 
 debug() {
     echo "INFO: $1"
@@ -73,7 +72,7 @@ upload_torrent() {
 # Dispatch download task to SERVER
 dispatch_task() {
     debug "Dispatching download task to $SERVER..."
-    session="${SESSION_PREFIX}_${KEYWORD}_$(date +%Y-%m-%d_%H:%M:%S)"
+    session="${KEYWORD^^}_$(date +%Y-%m-%d_%H:%M:%S)"
     ssh "$SERVER" "screen -dmS $session"
     ssh -t "$SERVER" "screen -S $session -p 0 -X stuff 'cd 115dl
     echo $session >> $SERVER_LOG
