@@ -24,8 +24,12 @@ UHUF_BIN="$HOME/Documents/working/projects/uhuf/bin"
 
 export PATH="$PATH:$GOPATH/bin:$UHUF_BIN:/usr/local/opt/go/libexec/bin"
 
-# Environment variables for .bashrc and .bash_aliases
+# git completion
+if [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]; then
+    . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+fi
 
+# Environment variables for .bashrc and .bash_aliases
 if [ -f "$HOME/.bashrc" ]; then
     . "$HOME/.bashrc"
 fi
