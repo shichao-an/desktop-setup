@@ -19,7 +19,6 @@ export GOPATH="$HOME/go"
 export WORKON_HOME=~/envs
 # pcd
 export PROJECT_DIR="$HOME/Documents/projects"
-export PATH="$PATH:$GOPATH:$PROJECT_DIR/115wangpan/bin"
 
 if [ -f "$HOME/.bash_aliases" ]; then
     . "$HOME/.bash_aliases"
@@ -29,4 +28,7 @@ if [ -f "$HOME/.bashrc" ]; then
 fi
 if [ -f "$HOME/.bash_completion" ]; then
     . "$HOME/.bash_completion"
+fi
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
 fi
